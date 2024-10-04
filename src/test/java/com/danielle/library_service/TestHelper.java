@@ -92,8 +92,6 @@ public class TestHelper {
 	public Citation createCitation() {
 		Work workCited = createWork();
 		Work citedBy = createWork();
-		System.out.println(workCited);
-		System.out.println(citedBy);
 		int pageNum = random.nextInt(1000);
 		long accessTime = getTimestamp();
 		return new Citation(workCited, citedBy, pageNum, accessTime);
