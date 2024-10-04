@@ -92,6 +92,8 @@ public class TestHelper {
 	public Citation createCitation() {
 		Work workCited = createWork();
 		Work citedBy = createWork();
+		System.out.println(workCited);
+		System.out.println(citedBy);
 		int pageNum = random.nextInt(1000);
 		long accessTime = getTimestamp();
 		return new Citation(workCited, citedBy, pageNum, accessTime);
@@ -124,7 +126,7 @@ public class TestHelper {
 		return now.getTime();
 	}
 	
-	private LocalDate getRandomDate() {
+	public LocalDate getRandomDate() {
 		int day = random.nextInt(28) + 1;
 		int month = random.nextInt(12) + 1;
 		int year = random.nextInt(2024) + 1;

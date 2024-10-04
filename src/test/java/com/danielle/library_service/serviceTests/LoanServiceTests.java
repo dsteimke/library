@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 
 import java.util.ArrayList;
@@ -59,8 +60,13 @@ public class LoanServiceTests {
 		loan.setLibrary(library);
 		loan.setWork(work);
 		
-		Mockito.when(loanRepository.findLoansByWorkId(work.getId())).thenReturn(new ArrayList<>());
-		Mockito.when(loanRepository.save(loan)).thenReturn(loan);
+		Loan oldLoan = new Loan(work, library, helper.getRandomDate(), helper.getRandomDate(), LoanStatus.RETURNED);
+		List<Loan> oldLoans = new ArrayList<>();
+		oldLoans.add(oldLoan);
+		
+		Mockito.when(loanRepository.findLoansByWorkId(work.getId())).thenReturn(oldLoans);
+		// The service creates a new loan that I don't have access to, so stub with any()
+		Mockito.when(loanRepository.save(any())).thenReturn(loan);
 		
 		long response = loanService.createLoan(work, library);
 		assertNotNull(response);

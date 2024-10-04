@@ -1,6 +1,5 @@
 package com.danielle.library_service.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -8,11 +7,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 import com.danielle.library_service.entities.enums.WorkType;
 
@@ -35,11 +32,7 @@ public class Work {
 	// Further enhancements; this could be an enum to encompass more rarity types. Maybe the library gets some ultra rare stuff
 	private boolean isRare;
 		
-	// If you save a work with a new author, persist that author as well
-	@OneToMany(mappedBy = "work", cascade = CascadeType.PERSIST)
-	Set<Author> authors;
-	
-	protected Work() {};
+	public Work() {};
 	
 	public Work(String title, WorkType workType, LocalDate publicationDate, boolean isRare) {
 		this.title = title;
