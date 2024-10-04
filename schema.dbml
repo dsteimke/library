@@ -1,0 +1,75 @@
+Table works {
+  id bigint [primary key, increment]
+  title varchar [not null]
+  work_type work_types [not null]
+  publication_date date
+  is_rare boolean
+}
+
+enum work_types{
+  SCROLL
+  TABLET
+  CODEX
+}
+
+Table authors {
+  id bigint [primary key, increment]
+  name varchar [unique]
+}
+
+Table author_work_mapping {
+  id bigint [primary key, increment]
+  author_id bigint [ref: <> authors.id]
+  work_id bigint [ref: <> works.id]
+}
+
+Table series {
+  id bigint [primary key]
+  name varchar
+}
+
+Table volumes {
+  id bigint [primary key, increment]
+  series_id bigint [ref: > series.id]
+  volume_number integer
+  work_id bigint [ref: - works.id]
+}
+
+Table citations {
+  id bigint [primary key, increment]
+  work_cited bigint [ref: <> works.id]
+  page_num integer
+  cited_in bigint [ref: <> works.id]
+  access_time timestamp
+}
+
+Table forewords {
+  id bigint [primary key, increment]
+  work_id bigint [ref: > works.id]
+  author_id bigint [ref: - authors.id]
+  forward mediumtext
+  Note: 'authors can be long winded, and assumes each author will never write more than 1 foreword for a work'
+}
+
+Table pls_locations {
+  id bigint [primary key, increment]
+  library_name varchar [unique]
+}
+
+Table loans {
+  id bigint [primary key, increment]
+  library_id bigint [ref: > pls_locations.id]
+  loan_date date
+  return_date date
+  work_id bigint [ref: < works.id]
+  status loan_status
+}
+
+enum loan_status {
+  IN_TRANSIT_OUT
+  ON_LOAN
+  IN_TRANSIT_BACK
+  RETURNED
+}
+
+
